@@ -1,7 +1,6 @@
 node {
   stage('Build') {
     echo 'Building..'
-    sh "mvn clean"
     deleteDir()
     checkout scm
     sh 'cat README.md'
