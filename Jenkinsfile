@@ -14,7 +14,18 @@ if (env.BUILD_ID.toInteger() % 2 == 0) {
    echo 'Execucao PAR'
     } else {
       echo 'Execucao IMPAR'
-        }          
+      } 
+/*try {
+      sh "exit ${exitCode}"
+      echo 'Sucesso!'
+      }
+catch (e) {
+      echo 'Falhou.'
+        // throw e
+      }
+finally {
+      echo 'Executa sempre.'
+      }*/
 sh 'cat README.md'
 sh 'printenv'
           def ambiente = input id: 'test', message: 'Please Provide Parameters', ok: 'Next',
