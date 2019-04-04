@@ -38,21 +38,28 @@ sh 'printenv'
                   description: 'Please enter the exit code.')
            ]
 exitCode = ambiente['EXIT']
-echo "${ambiente}"
+   echo "${ambiente}"
 }
-stage('Test') {
-node() {
-echo 'Testing..'
+   stage('Test') {
+      node() {
+         echo 'Testing..'
+         node {
+               git url: 'https://github.com/joe_user/simple-maven-project-with-tests.git'
+               def mvnHome = tool 'M3'
+               sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
+               archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+               junit **/target/surefire-reports/TEST-*.xml'
+         }
 /*retry(3) {
 sh './flakey-deploy.sh'
 }
 timeout(time: 3, unit: 'MINUTES') {
 sh './health-check.sh'
 }*/
-parallel FrontendTests: { echo 'Testing Frontend..' },
-          BackendTests: { echo 'Testing Backend..' }
-}
-}
+      parallel FrontendTests: { echo 'Testing Frontend..' },
+               BackendTests: { echo 'Testing Backend..' }
+      }
+   }
 stage('Deploy') {
    node() {
    echo 'Deploying....'
