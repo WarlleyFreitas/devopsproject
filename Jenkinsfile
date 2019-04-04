@@ -44,7 +44,7 @@ exitCode = ambiente['EXIT']
       node() {
          echo 'Testing..'
          node {
-               git url: 'https://github.com/joe_user/simple-maven-project-with-tests.git'
+               git url: 'https://github.com/wvffreitas/devopsproject.git'
                def mvnHome = tool 'M3'
                sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
