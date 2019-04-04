@@ -54,12 +54,12 @@ parallel FrontendTests: { echo 'Testing Frontend..' },
 }
 }
 stage('Deploy') {
-node() {
-echo 'Deploying....'
-deleteDir()
-unstash 'app'
-sh 'cat result'
-archiveArtifacts artifacts: '**/result', fingerprint: true
+   node() {
+   echo 'Deploying....'
+   deleteDir()
+   unstash 'app'
+   sh 'cat result'
+   archiveArtifacts artifacts: '**/result', fingerprint: true
 }
 }
 }
