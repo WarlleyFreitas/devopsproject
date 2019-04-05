@@ -53,5 +53,6 @@ node {
       sh 'cat result'
       archiveArtifacts artifacts: '**/result', fingerprint: true
    }
+ }
 
 }
