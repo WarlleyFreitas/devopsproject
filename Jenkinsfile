@@ -10,22 +10,12 @@ deleteDir()
 checkout scm
 sh "echo 'res' > result"
 stash includes: '**/result', name: 'app'
-if (env.BUILD_ID.toInteger() % 2 == 0) {
-   echo 'Execucao PAR'
+   if (env.BUILD_ID.toInteger() % 2 == 0) {
+      echo 'Execucao PAR'
     } else {
       echo 'Execucao IMPAR'
-      } 
-/*try {
-      sh "exit ${exitCode}"
-      echo 'Sucesso!'
-      }
-catch (e) {
-      echo 'Falhou.'
-        // throw e
-      }
-finally {
-      echo 'Executa sempre.'
-      }*/
+    } 
+
 sh 'cat README.md'
 sh 'printenv'
           def ambiente = input id: 'test', message: 'Please Provide Parameters', ok: 'Next',
@@ -37,7 +27,7 @@ sh 'printenv'
                   defaultValue: '0',
                   description: 'Please enter the exit code.')
            ]
-exitCode = ambiente['EXIT']
+   exitCode = ambiente['EXIT']
    echo "${ambiente}"
 }
    stage('Test') {
@@ -49,17 +39,13 @@ exitCode = ambiente['EXIT']
                sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                junit **/target/surefire-reports/TEST-*.xml'
+         
+               parallel FrontendTests: { echo 'Testing Frontend..' },
+                        BackendTests: { echo 'Testing Backend..' }
          }
-/*retry(3) {
-sh './flakey-deploy.sh'
-}
-timeout(time: 3, unit: 'MINUTES') {
-sh './health-check.sh'
-}*/
-      parallel FrontendTests: { echo 'Testing Frontend..' },
-               BackendTests: { echo 'Testing Backend..' }
       }
    }
+   
 stage('Deploy') {
    node() {
    echo 'Deploying....'
