@@ -46,7 +46,7 @@ exitCode = ambiente['EXIT']
          node {
                git url: 'https://github.com/wvffreitas/devopsproject.git'
                def mvnHome = tool 'M3'
-               sh "${mvnHome}/bin/mvn -B -Dmaven.test.failure.ignore verify"
+               sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                junit **/target/surefire-reports/TEST-*.xml'
          }
