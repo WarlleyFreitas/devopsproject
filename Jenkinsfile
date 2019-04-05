@@ -20,7 +20,7 @@ node {
    sh 'cat README.md'
    sh 'printenv'
           def ambiente = input id: 'test', message: 'Please Provide Parameters', ok: 'Next',
-           parameters: [
+          parameters: [
               choice(name: 'ENVIRONMENT',
                   choices: ['dev','qa'].join('\n'),
                   description: 'Please select the Environment'),
@@ -38,7 +38,7 @@ node {
       def mvnHome = tool 'M3'
       sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
       archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-      junit **/target/surefire-reports/TEST-*.xml'
+     
          
       parallel FrontendTests: { echo 'Testing Frontend..' },
                BackendTests: { echo 'Testing Backend..' }
