@@ -1,5 +1,6 @@
 def username = 'Jenkins'
 env.CC = 'clang'
+
 node {
    stage('Build') {
    env.DEBUG_FLAGS = '-g'
@@ -30,26 +31,27 @@ node {
    exitCode = ambiente['EXIT']
    echo "${ambiente}"
 }
+   
    stage('Test') {
-               echo 'Testing..'
-               git url: 'https://github.com/wvffreitas/devopsproject.git'
-               def mvnHome = tool 'M3'
-               sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
-               archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-               junit **/target/surefire-reports/TEST-*.xml'
+      echo 'Testing..'
+      git url: 'https://github.com/wvffreitas/devopsproject.git'
+      def mvnHome = tool 'M3'
+      sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
+      archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+      junit **/target/surefire-reports/TEST-*.xml'
          
-               parallel FrontendTests: { echo 'Testing Frontend..' },
-                        BackendTests: { echo 'Testing Backend..' }
+      parallel FrontendTests: { echo 'Testing Frontend..' },
+               BackendTests: { echo 'Testing Backend..' }
          
    }
    
-stage('Deploy') {
-   node() {
-   echo 'Deploying....'
-   deleteDir()
-   unstash 'app'
-   sh 'cat result'
-   archiveArtifacts artifacts: '**/result', fingerprint: true
-}
-}
+   stage('Deploy') {
+      node() {
+      echo 'Deploying....'
+      deleteDir()
+      unstash 'app'
+      sh 'cat result'
+      archiveArtifacts artifacts: '**/result', fingerprint: true
+   }
+
 }
