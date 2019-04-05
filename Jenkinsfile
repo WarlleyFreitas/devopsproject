@@ -35,7 +35,7 @@ node {
    stage('Test') {
       echo 'Testing..'
       git url: 'https://github.com/wvffreitas/devopsproject.git'
-      def mvnHome = tool 'M3'
+      def mvnHome = tool 'maven'
       sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
       archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
         
