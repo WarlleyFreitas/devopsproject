@@ -1,4 +1,4 @@
-def username = 'Warlley'
+def username = 'Warlley & Alessandro'
 env.CC = 'clang'
 
 node {
@@ -46,12 +46,13 @@ node {
    
    stage('Deploy') {
       node() {
-      echo 'Deploying....'
-      deleteDir()
-      unstash 'app'
-      sh 'cat result'
-      archiveArtifacts artifacts: '**/result', fingerprint: true
-   }
+         echo 'Deploying....'
+         deleteDir()
+         unstash 'app'
+         sh 'cat result'
+         sh 'zip -r deploy.zip /var/jenkins_home/workspace/pipeline@2'
+         archiveArtifacts artifacts: '**/result', fingerprint: true
+      }
  }
 
 }
