@@ -54,7 +54,7 @@ node {
                         allowMissing: true,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
-                        reportDir: 'target/reports/html',
+                        reportDir: '**/result',   //'target/reports/html',
                         reportFiles: 'index.html',
                         reportName: 'Test Suite HTML Report'
                 ]
