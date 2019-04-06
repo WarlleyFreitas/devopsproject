@@ -35,17 +35,22 @@ node {
    }
    
    stage('Test') {
-      echo 'Testing..'
-      //git url: 'https://github.com/wvffreitas/devopsproject.git'
-      def mvnHome = tool 'maven'
-      sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
-      archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+      node() {
+         echo 'Testing..'
+         //git url: 'https://github.com/wvffreitas/devopsproject.git'
+         def mvnHome = tool 'maven'
+         sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
+         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
         
-      parallel FrontendTests: { 
-         echo 'Testing Frontend..' 
-      },
-      BackendTests: { 
-         echo 'Testing Backend..' 
+         parallel FrontendTests: { 
+            echo 'Testing Frontend..' 
+         },
+         BackendTests: { 
+            echo 'Testing Backend..' 
+         }
+     }
+      node() {
+          echo 'Testing...'
       }
    }
    
