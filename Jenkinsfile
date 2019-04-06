@@ -34,7 +34,7 @@ node {
    
    stage('Test') {
       echo 'Testing..'
-      git url: 'https://github.com/wvffreitas/devopsproject.git'
+      //git url: 'https://github.com/wvffreitas/devopsproject.git'
       def mvnHome = tool 'maven'
       sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
       archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
@@ -54,11 +54,11 @@ node {
                         allowMissing: true,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
-                        reportDir: '**/result',   //'target/reports/html',
+                        reportDir: 'target/reports/html',
                         reportFiles: 'index.html',
                         reportName: 'Test Suite HTML Report'
                 ]
-         //archiveArtifacts artifacts: '**/result', fingerprint: true
+         archiveArtifacts artifacts: '**/result', fingerprint: true
       }
  }
 
