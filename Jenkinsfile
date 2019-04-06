@@ -101,3 +101,32 @@ node {
  }
 
 }
+
+post {
+   always {
+            echo "I AM ALWAYS first"
+            notifyBuild("${currentBuild.currentResult}")
+        }
+        aborted {
+            echo "BUILD ABORTED"
+        }
+        success {
+            echo "BUILD SUCCESS"
+            echo "Keep Current Build If branch is master"
+//            keepThisBuild()
+        }
+        unstable {
+            echo "BUILD UNSTABLE"
+        }
+        failure {
+            echo "BUILD FAILURE"
+        }
+    }
+
+}
+
+def keepThisBuild() {
+    currentBuild.setKeepLog(true)
+    currentBuild.setDescription("Test Description")
+}
+
