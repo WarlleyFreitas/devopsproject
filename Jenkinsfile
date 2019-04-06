@@ -41,27 +41,22 @@ node {
       sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
       archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
         
-      parallel FrontendTests: { echo 'Testing Frontend..' },
-               BackendTests: { echo 'Testing Backend..' }
+      parallel FrontendTests: { 
+         echo 'Testing Frontend..' 
+      },
+      BackendTests: { 
+         echo 'Testing Backend..' 
+      }
    }
    
    stage('Deploy') {
       node() {
          echo 'Deploying....'
-         deleteDir()
+         
          unstash 'app'
          sh 'cat result'
-    
-         //sh 'zip -r deploy.zip /var/jenkins_home/workspace/pipeline@2'
-         publishHTML target: [
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: 'target/reports/html',
-                        reportFiles: 'index.html',
-                        reportName: 'Test Suite HTML Report'
-                ]
          archiveArtifacts artifacts: '**/result', fingerprint: true
+         deleteDir()
      }
       
    }
