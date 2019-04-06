@@ -18,7 +18,7 @@ node {
     } 
 
    sh 'cat README.md'
-   sh 'printenv'
+   /*sh 'printenv'
           def ambiente = input id: 'test', message: 'Please Provide Parameters', ok: 'Next',
           parameters: [
               choice(name: 'ENVIRONMENT',
@@ -29,7 +29,7 @@ node {
                   description: 'Please enter the exit code.')
            ]
    exitCode = ambiente['EXIT']
-   echo "${ambiente}"
+   echo "${ambiente}"*/
 }
    
    stage('Test') {
@@ -41,7 +41,6 @@ node {
         
       parallel FrontendTests: { echo 'Testing Frontend..' },
                BackendTests: { echo 'Testing Backend..' }
-         
    }
    
    stage('Deploy') {
@@ -50,7 +49,15 @@ node {
          deleteDir()
          unstash 'app'
          sh 'cat result'
-         sh 'zip -r deploy.zip /var/jenkins_home/workspace/pipeline@2'
+         //sh 'zip -r deploy.zip /var/jenkins_home/workspace/pipeline@2'
+         publishHTML target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'target/reports/html',
+                        reportFiles: 'index.html',
+                        reportName: 'Test Suite HTML Report'
+                ]
          archiveArtifacts artifacts: '**/result', fingerprint: true
       }
  }
