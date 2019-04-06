@@ -19,11 +19,10 @@ node {
          } 
 
       sh 'cat README.md'
-    
    }
    
    stage('Test') {
-      node() {
+      
          echo 'Testing..'
          //git url: 'https://github.com/wvffreitas/devopsproject.git'
          def mvnHome = tool 'maven'
@@ -35,17 +34,7 @@ node {
          path:'devops/',
          includePathPattern: '**/*',
          excludePathPattern:'**/*.svg')
-        
-         parallel FrontendTests: { 
-            echo 'Testing Frontend..' 
-         },
-         BackendTests: { 
-            echo 'Testing Backend..' 
-         }
-     }
-      node() {
-          echo 'Testing...'
-      }
+       
    }
    
    stage('Deploy') {
@@ -58,5 +47,6 @@ node {
          deleteDir()
      }
       
+   }
    }
 }
