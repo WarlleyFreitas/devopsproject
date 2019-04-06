@@ -58,7 +58,7 @@ node {
                         reportFiles: 'index.html',
                         reportName: 'Test Suite HTML Report'
                 ]
-         archiveArtifacts artifacts: '**/result', fingerprint: true
+         //archiveArtifacts artifacts: '**/result', fingerprint: true
       }
  }
 
