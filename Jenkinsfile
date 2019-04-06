@@ -19,18 +19,6 @@ node {
          } 
 
       sh 'cat README.md'
-   /*sh 'printenv'
-          def ambiente = input id: 'test', message: 'Please Provide Parameters', ok: 'Next',
-          parameters: [
-              choice(name: 'ENVIRONMENT',
-                  choices: ['dev','qa'].join('\n'),
-                  description: 'Please select the Environment'),
-              string(name: 'EXIT',
-                  defaultValue: '0',
-                  description: 'Please enter the exit code.')
-           ]
-   exitCode = ambiente['EXIT']
-   echo "${ambiente}"*/
     
    }
    
@@ -44,7 +32,7 @@ node {
          withAWS(credentials: 'aws-wfreitas') {
          env.AWS_DEFAULT_REGION = 'sa-east-1'
          s3Upload (bucket:"devops-school-wfreitas",
-         path:’devops/',
+         path:'devops/',
          includePathPattern: '**/*',
          excludePathPattern:'**/*.svg')
         
