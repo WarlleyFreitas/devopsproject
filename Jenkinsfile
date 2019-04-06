@@ -55,18 +55,18 @@ node {
     // build status of null means successful
     buildStatus = buildStatus ?: 'SUCCESS'
 
-    def branchName = getCurrentBranch()
-    def shortCommitHash = getShortCommitHash()
-    def changeAuthorName = getChangeAuthorName()
-    def changeAuthorEmail = getChangeAuthorEmail()
-    def changeSet = getChangeSet()
-    def changeLog = getChangeLog()
+      def branchName = getCurrentBranch()
+      def shortCommitHash = getShortCommitHash()
+      def changeAuthorName = getChangeAuthorName()
+      def changeAuthorEmail = getChangeAuthorEmail()
+      def changeSet = getChangeSet()
+      def changeLog = getChangeLog()
 
-    // Default values
-    def colorName = 'RED'
-    def colorCode = '#FF0000'
-    def subject = "${buildStatus}: '${env.JOB_NAME} [${env.BUILD_NUMBER}]'" + branchName + ", " + shortCommitHash
-    def summary = "Started: Name:: ${env.JOB_NAME} \n " +
+      // Default values
+      def colorName = 'RED'
+      def colorCode = '#FF0000'
+      def subject = "${buildStatus}: '${env.JOB_NAME} [${env.BUILD_NUMBER}]'" + branchName + ", " + shortCommitHash
+      def summary = "Started: Name:: ${env.JOB_NAME} \n " +
             "Build Number: ${env.BUILD_NUMBER} \n " +
             "Build URL: ${env.BUILD_URL} \n " +
             "Short Commit Hash: " + shortCommitHash + " \n " +
@@ -75,16 +75,16 @@ node {
             "Change Author Email: " + changeAuthorEmail + " \n " +
             "Change Set: " + changeSet
 
-    if (buildStatus == 'STARTED') {
+      if (buildStatus == 'STARTED') {
         color = 'YELLOW'
         colorCode = '#FFFF00'
-    } else if (buildStatus == 'SUCCESS') {
+      } else if (buildStatus == 'SUCCESS') {
         color = 'GREEN'
         colorCode = '#00FF00'
-    } else {
+      } else {
         color = 'RED'
         colorCode = '#FF0000'
-    }
+      }
 
     }
          //sh 'zip -r deploy.zip /var/jenkins_home/workspace/pipeline@2'
@@ -97,7 +97,7 @@ node {
                         reportName: 'Test Suite HTML Report'
                 ]
          archiveArtifacts artifacts: '**/result', fingerprint: true
-      }
+      
  }
 
 }
@@ -122,7 +122,6 @@ post {
             echo "BUILD FAILURE"
         }
     }
-
 }
 
 def keepThisBuild() {
