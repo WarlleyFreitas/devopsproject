@@ -50,7 +50,8 @@ node {
          deleteDir()
          unstash 'app'
          sh 'cat result'
-         def notifyBuild(String buildStatus = 'STARTED') {
+    
+    def notifyBuild(String buildStatus = 'STARTED') {
     // build status of null means successful
     buildStatus = buildStatus ?: 'SUCCESS'
 
@@ -85,6 +86,7 @@ node {
         colorCode = '#FF0000'
     }
 
+    }
          //sh 'zip -r deploy.zip /var/jenkins_home/workspace/pipeline@2'
          publishHTML target: [
                         allowMissing: true,
