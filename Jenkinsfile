@@ -41,6 +41,12 @@ node {
          def mvnHome = tool 'maven'
          sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
          archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+         withAWS(credentials: 'aws-wfreitas') {
+         env.AWS_DEFAULT_REGION = 'sa-east-1'
+         s3Upload (bucket:"devops-school-wfreitas",
+         path:’devops/',
+         includePathPattern: '**/*',
+         excludePathPattern:'**/*.svg')
         
          parallel FrontendTests: { 
             echo 'Testing Frontend..' 
