@@ -28,7 +28,7 @@ node {
          def mvnHome = tool 'maven'
          sh "${mvnHome}/bin/mvn -B -D maven.test.failure.ignore verify"
          archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-         withAWS(credentials: 'aws-wfreitas') {
+         withAWS(credentials: 'aws-freitas') {
          env.AWS_DEFAULT_REGION = 'sa-east-1'
          s3Upload (bucket:"devops-school-wfreitas",
          path:'devops/',
@@ -40,11 +40,11 @@ node {
    stage('Deploy') {
       node() {
          echo 'Deploying....'
-         
+         deleteDir()
          unstash 'app'
          sh 'cat result'
          archiveArtifacts artifacts: '**/result', fingerprint: true
-         deleteDir()
+         
      }
       
    }
